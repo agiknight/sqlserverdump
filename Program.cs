@@ -222,8 +222,21 @@ namespace Helvartis.SQLServerDump
 
             try
             {
+                if (arguments.OutputFolder != null)
+                {
+                    if (Directory.Exists(arguments.OutputFolder) == false)
+                    {
+                        Directory.CreateDirectory(arguments.OutputFolder);
+                    }
+
+                }
                 foreach (string dbName in arguments.Databases)
                 {
+                    if (arguments.OutputFolder != null)
+                    {
+                        output = new StreamWriter(arguments.OutputFolder + '\\' + dbName + ".sql");
+
+                    }
                     Database db = server.Databases[dbName];
                     if (arguments.DropDb)
                     {
@@ -269,6 +282,10 @@ namespace Helvartis.SQLServerDump
                         if (!arguments.NoStoredProcedures) { Output(db.StoredProcedures, output, scrp, "\n-- STORED PROCEDURES\n"); }
                         if (!arguments.NoSynonyms) { Output(db.Synonyms, output, scrp, "\n-- SYNONYMS\n"); }
                         if (!arguments.NoTriggers) { Output(db.Triggers, output, scrp, "\n-- TRIGGERS\n"); }
+                    }
+                    if (arguments.OutputFolder != null)
+                    {
+                        output.Close();
                     }
                 }
             }
@@ -350,7 +367,17 @@ namespace Helvartis.SQLServerDump
 
                 bool hasContent = false;
                 bool hasOutputAtEnd = false;
-                foreach (string s in scrp.EnumScript(new Urn[] { obj.Urn }))
+                IEnumerable<string> em = null;
+                try
+                {
+                    em = scrp.EnumScript(new Urn[] { obj.Urn });
+
+                } catch (Exception e)
+                {
+                    Console.Error.WriteLine("save fail {0} {1}", e.Message, obj.Urn.Value)
+                    return;
+                }
+                foreach (string s in em)
                 {
                     if (outputAtEnd != null && OutputAtEnd(obj, s))
                     {

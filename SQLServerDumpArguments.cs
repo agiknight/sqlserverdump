@@ -32,7 +32,7 @@ namespace Helvartis.SQLServerDump
             "no-foreign-keys", "no-unique-keys", "no-views", "no-triggers", "no-synonyms",
             "no-stored-procedures", "no-user-defined-types", "no-user-defined-data-types",
             "no-user-defined-table-types", "no-user-defined-aggregates",
-            "no-user-defined-functions"
+            "no-user-defined-functions", "help", "result-folder"
         };
         public bool WrongOptions { get; private set; }
         public string ConnectionString { get; private set; }
@@ -46,6 +46,8 @@ namespace Helvartis.SQLServerDump
         public bool IncludeBatchSeparator { get; private set; }
         public string Password { get; private set; }
         public string ResultFile { get; private set; }
+        public string OutputFolder { get; private set; }
+
         public string ServerName { get; set; }
         public bool ShowHelp { get; private set; }
         public string Username { get; private set; }
@@ -193,6 +195,8 @@ namespace Helvartis.SQLServerDump
             }
             if (ContainsKey("server-name")) { ServerName = this["server-name"]; }
             if (ContainsKey("result-file")) { ResultFile = this["result-file"]; }
+            if (ContainsKey("result-folder")) { OutputFolder = this["result-folder"]; }
+
             if (ContainsKey("username")) { Username = this["username"]; }
             if (ContainsKey("password"))
             {

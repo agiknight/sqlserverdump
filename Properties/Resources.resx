@@ -207,6 +207,7 @@ The following options may be given:
                       included in the output.
 --result-file=name    Direct output to a given file. If omitted, result will be
                       directed to standard output.
+--result-folder=name  Direct output to a given folder.
 --server-name=instancename
                       Connect to the local instance instancename. If this
                       option is omitted, it will try to connect to the local
