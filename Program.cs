@@ -374,7 +374,7 @@ namespace Helvartis.SQLServerDump
 
                 } catch (Exception e)
                 {
-                    Console.Error.WriteLine("save fail {0} {1}", e.Message, obj.Urn.Value)
+                    Console.Error.WriteLine("save fail {0} {1}", e.Message, obj.Urn.Value);
                     return;
                 }
                 foreach (string s in em)
